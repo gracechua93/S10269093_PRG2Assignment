@@ -12,7 +12,7 @@ void LoadFlights(Dictionary<string, Flight> fDict)
 {
     using (StreamReader sr = new StreamReader("flights.csv"))
     {
-        string s = sr.ReadLine();
+        string? s = sr.ReadLine();
 
         while ((s = sr.ReadLine()) != null)
         {
@@ -28,10 +28,9 @@ void LoadFlights(Dictionary<string, Flight> fDict)
         }
     }
 
-
     using (StreamReader sr = new StreamReader("airlines.csv"))
     {
-        string s = sr.ReadLine();
+        string? s = sr.ReadLine();
 
         while ((s = sr.ReadLine()) != null)
         {
@@ -58,13 +57,13 @@ void LoadFlights(Dictionary<string, Flight> fDict)
     }
 
 }
-
+Console.WriteLine();
 LoadBoardingGates(boardingGateDict);
 void LoadBoardingGates(Dictionary<string, BoardingGate> bgDict)
 {
     using (StreamReader sr = new StreamReader("boardinggates.csv"))
     {
-        string s = sr.ReadLine();
+        string? s = sr.ReadLine();
 
         while ((s = sr.ReadLine()) != null)
         {
