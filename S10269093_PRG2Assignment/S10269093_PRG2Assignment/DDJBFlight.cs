@@ -1,5 +1,11 @@
 ﻿using System;
 
+//==========================================================
+// Student Number: S10269093
+// Student Name: Grace Chua
+// Partner Name: Dalton Seah
+//==========================================================
+
 namespace S10269093_PRG2Assignment
 {
     class DDJBFlight : Flight
