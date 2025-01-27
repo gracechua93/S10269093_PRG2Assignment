@@ -13,12 +13,12 @@ namespace S10269093_PRG2Assignment
         public double RequestFee { get; set; }
 
         public CFFTFlight() : base() { }
-        public CFFTFlight(string fN, string o, string d, DateTime et, string s, double rF) : base(fN, o, d, et)
+        public CFFTFlight(string fN, string o, string d, DateTime et, string s) : base(fN, o, d, et, s)
         {
-            RequestFee = rF;
+            RequestFee = 150;
         }
 
-        public override double CalculateFees()
+        public double CalculateFees()
         {
             double fees = 0;
             if (Origin == "Singapore (SIN)")
@@ -30,7 +30,6 @@ namespace S10269093_PRG2Assignment
                 fees = 800 + 300;
             }
 
-            RequestFee = 150;
             fees += RequestFee;
             return fees;
 

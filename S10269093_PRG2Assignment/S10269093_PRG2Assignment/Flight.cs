@@ -8,7 +8,7 @@
 
 namespace S10269093_PRG2Assignment
 {
-    class Flight
+    abstract class Flight
     {
         // properties
         public string FlightNumber { get; set; }
@@ -20,18 +20,20 @@ namespace S10269093_PRG2Assignment
         // constructors
         public Flight() { }
 
-        public Flight(string fN, string o, string d, DateTime et)
+        public Flight(string fN, string o, string d, DateTime et, string s)
         {
             FlightNumber = fN;
             Origin = o;
             Destination = d;
             ExpectedTime = et;
+            Status = s;
         }
 
-        public virtual double CalculateFees()
+        public double CalculateFees()
         {
             return 0;
         }
+
 
         public override string ToString()
         {

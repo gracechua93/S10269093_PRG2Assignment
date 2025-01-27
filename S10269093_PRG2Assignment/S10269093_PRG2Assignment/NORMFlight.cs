@@ -10,9 +10,9 @@ namespace S10269093_PRG2Assignment
 {
     class NORMFlight : Flight
     {
-        public NORMFlight(string fN, string o, string d, DateTime et, string s) : base(fN, o, d, et) { }
+        public NORMFlight(string fN, string o, string d, DateTime et, string s) : base(fN, o, d, et, s) { }
 
-        public override double CalculateFees()
+        public double CalculateFees()
         {
             if (Origin == "Singapore (SIN)")
             {

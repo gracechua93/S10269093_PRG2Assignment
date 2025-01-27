@@ -21,10 +21,33 @@ void LoadFlights(Dictionary<string, Flight> fDict)
             string fOrigin = data[1];
             string fDest = data[2];
             DateTime eDepart_Arrival = DateTime.Parse(data[3]);
+            string fcode = data[4];
+
+            string status = "Scheduled";
 
             // Add to the flight dictionary
-            Flight flight = new Flight(fNum, fOrigin, fDest, eDepart_Arrival);
-            flightDict[fNum] = flight;
+            if (fcode == "CFFT")
+            {
+                Flight flight = new CFFTFlight(fNum, fOrigin, fDest, eDepart_Arrival,status);
+                flightDict[fNum] = flight;
+            }
+            else if (fcode == "DDJB")
+            {
+                Flight flight = new DDJBFlight(fNum, fOrigin, fDest, eDepart_Arrival, status);
+                flightDict[fNum] = flight;
+            }
+            else if (fcode == "LWTT")
+            {
+                Flight flight = new LWTTFlight(fNum, fOrigin, fDest, eDepart_Arrival, status);
+                flightDict[fNum] = flight;
+            }
+            else
+            {
+                Flight flight = new NORMFlight(fNum, fOrigin, fDest, eDepart_Arrival, status);
+                flightDict[fNum] = flight;
+            }
+                    
+            
         }
     }
 
