@@ -23,6 +23,8 @@ namespace S10269093_PRG2Assignment
             {
                 return fees += 800;
             }
+
+            return 0;
         }
 
         public override string ToString()
