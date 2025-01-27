@@ -18,16 +18,16 @@ namespace S10269093_PRG2Assignment
             RequestFee = 150;
         }
 
-        public double CalculateFees()
+        public override double CalculateFees()
         {
-            double fees = 0;
+            double fees = 300;
             if (Origin == "Singapore (SIN)")
             {
-                fees = 500 + 300;
+                fees += 500;
             }
             else if (Destination == "Singapore (SIN)")
             {
-                fees = 800 + 300;
+                fees += 800;
             }
 
             fees += RequestFee;

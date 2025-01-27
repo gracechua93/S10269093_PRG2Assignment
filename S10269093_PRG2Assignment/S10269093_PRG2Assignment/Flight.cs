@@ -29,7 +29,7 @@ namespace S10269093_PRG2Assignment
             Status = s;
         }
 
-        public double CalculateFees()
+        public virtual double CalculateFees()
         {
             return 0;
         }

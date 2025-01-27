@@ -12,18 +12,17 @@ namespace S10269093_PRG2Assignment
     {
         public NORMFlight(string fN, string o, string d, DateTime et, string s) : base(fN, o, d, et, s) { }
 
-        public double CalculateFees()
+        public override double CalculateFees()
         {
+            double fees = 300;
             if (Origin == "Singapore (SIN)")
             {
-                return 500 + 300;
+                return fees += 500;
             }
             else if (Destination == "Singapore (SIN)")
             {
-                return 800 + 300;
+                return fees += 800;
             }
-
-            return 0;
         }
 
         public override string ToString()

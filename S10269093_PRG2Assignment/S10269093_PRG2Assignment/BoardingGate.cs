@@ -15,7 +15,7 @@ namespace S10269093_PRG2Assignment
         public bool SupportsCFFT { get; set; }
         public bool SupportsDDJB { get; set; }
         public bool SupportsLWTT { get; set; }
-        public Flight Flight { get; set; }
+        public Flight? Flight { get; set; }
 
         public BoardingGate() { }
 
@@ -29,19 +29,7 @@ namespace S10269093_PRG2Assignment
 
         public double CalculatFees()
         {
-            if (SupportsCFFT)
-            {
-                return 300 + 150;
-            }
-            else if (SupportsDDJB)
-            {
-                return 300 + 300;
-            }
-            else if (SupportsLWTT)
-            {
-                return 300 + 500;
-            }
-            else return 300;
+            return 300;
         }
 
         public override string ToString()
