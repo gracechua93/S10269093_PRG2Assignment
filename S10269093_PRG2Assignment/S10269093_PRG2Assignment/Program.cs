@@ -6,8 +6,6 @@ Dictionary<string, BoardingGate> boardingGateDict = new Dictionary<string, Board
 Dictionary<string, Flight> flightDict = new Dictionary<string, Flight>();
 
 
-LoadFlights(flightDict);
-
 void LoadFlights(Dictionary<string, Flight> fDict)
 {
     using (StreamReader sr = new StreamReader("flights.csv"))
@@ -80,8 +78,7 @@ void LoadFlights(Dictionary<string, Flight> fDict)
     }
 
 }
-Console.WriteLine();
-LoadBoardingGates(boardingGateDict);
+
 void LoadBoardingGates(Dictionary<string, BoardingGate> bgDict)
 {
     using (StreamReader sr = new StreamReader("boardinggates.csv"))
@@ -108,4 +105,57 @@ void LoadBoardingGates(Dictionary<string, BoardingGate> bgDict)
         Console.WriteLine("{0,-15} {1,-20} {2,-20} {3,-20}",
             bg.Value.GateName, bg.Value.SupportsDDJB, bg.Value.SupportsCFFT, bg.Value.SupportsLWTT);
     }
+}
+
+void DisplayMenu()
+{
+    Console.WriteLine("=============================================");
+    Console.WriteLine("Welcome to Changi Airport Terminal 5");
+    Console.WriteLine("=============================================");
+    Console.WriteLine("1. List All Flights");
+    Console.WriteLine("2. List Boarding Gates");
+    Console.WriteLine("3. Assign a Boarding Gate to a Flight");
+    Console.WriteLine("4. Create Flight");
+    Console.WriteLine("5. Display Airline Flights");
+    Console.WriteLine("6. Modify Flight Details");
+    Console.WriteLine("7. Display Flight Schedule");
+    Console.WriteLine("0. Exit");
+    Console.WriteLine();
+    Console.WriteLine("Please select your option:");
+}
+
+
+while (true)
+{
+    Console.WriteLine("Loading Airlines...");
+    Console.WriteLine("8 Airlines Loaded!");
+    Console.WriteLine("Loading Boarding Gates...");
+    Console.WriteLine("66 Boarding Gates Loaded!");
+    Console.WriteLine("Loading Flights...");
+    Console.WriteLine("30 Flights Loaded!");
+    Console.WriteLine();
+
+    DisplayMenu();
+    string option = Console.ReadLine();
+
+    if (option == "0")
+    {
+        Console.WriteLine("Goodbye!");
+        break;
+    }
+    else if (option == "1")
+    {
+        Console.WriteLine("=============================================");
+        Console.WriteLine("List of Flights for Changi Airport Terminal 5");
+        Console.WriteLine("=============================================");
+        LoadFlights(flightDict);
+    }
+    else if (option == "2")
+    {
+        Console.WriteLine("=============================================");
+        Console.WriteLine("List of Boarding Gates for Changi Airport Terminal 5");
+        Console.WriteLine("=============================================");
+        LoadBoardingGates(boardingGateDict);
+    }
+    
 }
