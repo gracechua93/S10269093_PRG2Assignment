@@ -88,7 +88,7 @@ void DisplayFlight(Dictionary<string, Flight> fDict, Dictionary<string, Airline>
     LoadFlights(flightDict);
     LoadAirlines(airDict);
     Console.WriteLine("{0,-15} {1,-20} {2,-23} {3,-20} {4,-15}",
-                "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time");
+        "FlightNumber", "Airline Name", "Origin", "Destination", "ExpectedTime");
     foreach (KeyValuePair<string, Flight> f in flightDict)
     {
         string airlineCode = f.Value.FlightNumber.Split(' ')[0];
@@ -330,6 +330,18 @@ while (true)
         Console.WriteLine("=============================================");
         Console.WriteLine("Flight Schedule for Changi Airport Terminal 5");
         Console.WriteLine("=============================================");
+
+        var sortedFlights = flightDict
+            .OrderBy(f => f.Value.ExpectedTime).ToList();
+        Console.WriteLine("{0,-15} {1,-20} {2,-23} {3,-20} {4,-25} {5,-15}",
+            "FlightNumber", "Airline Name", "Origin", "Destination", "ExpectedTime", "Status");
+        foreach (var flight in sortedFlights)
+        {
+            Console.WriteLine("{0,-15} {1,-20} {2,-23} {3,-20} {4,-25} {5,-15}",
+            flight.Value.FlightNumber, 0, flight.Value.Origin, flight.Value.Destination, flight.Value.ExpectedTime, flight.Value.Status);
+        }
+       
+
     }
 
 
