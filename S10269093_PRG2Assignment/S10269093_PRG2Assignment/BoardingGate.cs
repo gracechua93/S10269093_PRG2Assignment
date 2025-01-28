@@ -34,8 +34,8 @@ namespace S10269093_PRG2Assignment
 
         public override string ToString()
         {
-            return "GateName: " + GateName + "\nSupport CTTF: " + SupportsCFFT +
-                "\n Support DDJB: " + SupportsDDJB + "\n Support LWTT: " + SupportsLWTT;
+            return "Boarding Gate Name: " + GateName + "\nSupport CTTF: " + SupportsCFFT +
+                "\nSupport DDJB: " + SupportsDDJB + "\nSupport LWTT: " + SupportsLWTT;
         }
 
     }

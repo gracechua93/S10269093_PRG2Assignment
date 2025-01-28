@@ -38,7 +38,7 @@ namespace S10269093_PRG2Assignment
 
         public override string ToString()
         {
-            return base.ToString() + "LWTT Flight";
+            return base.ToString() + "\nSpecial Request Code: " + "LWTT";
         }
     }
 }
