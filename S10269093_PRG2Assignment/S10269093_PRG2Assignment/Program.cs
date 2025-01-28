@@ -181,7 +181,7 @@ while (true)
         
 
         bool flightFound = false;
-        Flight selectedFlight = null;
+        Flight? selectedFlight = null;
 
         foreach (KeyValuePair<string, Flight> f in flightDict)
         {
@@ -203,7 +203,6 @@ while (true)
         {
             Console.WriteLine("Unable to find flight information.");
         }
-
 
         foreach (KeyValuePair<string, BoardingGate> bg in boardingGateDict)
         {
@@ -238,10 +237,72 @@ while (true)
             }
         }
         Console.WriteLine($"Flight {selectedFlight.FlightNumber} has been assigned to Boarding Gate {gateName}!");
+        
+    }
+    else if (option == "4")
+    {
+        while (true)
+        {
 
+            Console.WriteLine("=============================================");
+            Console.WriteLine("Create a new Flight");
+            Console.WriteLine("=============================================");
 
+            Console.Write("Enter Flight Number: ");
+            string? flightNumber = Console.ReadLine();
+            Console.Write("Enter Origin: ");
+            string? origin = Console.ReadLine();
+            Console.Write("Enter Destination: ");
+            string? destination = Console.ReadLine();
+            Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
+            DateTime expectedTime = DateTime.Parse(Console.ReadLine());
+            Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
+            string? specialReqCode = Console.ReadLine();
 
+            string status = "Scheduled";
+            if (specialReqCode == "None")
+            {
+                Flight newFlight = new NORMFlight(flightNumber, origin, destination, expectedTime, status);
+                flightDict[flightNumber] = newFlight;
+            }
+            else if (specialReqCode == "CFFT")
+            {
+                Flight newFlight = new CFFTFlight(flightNumber, origin, destination, expectedTime, status);
+                flightDict[flightNumber] = newFlight;
+            }
+            else if (specialReqCode == "DDJB")
+            {
+                Flight newFlight = new DDJBFlight(flightNumber, origin, destination, expectedTime, status);
+                flightDict[flightNumber] = newFlight;
+            }
+            else if (specialReqCode == "LWTT")
+            {
+                Flight newFlight = new LWTTFlight(flightNumber, origin, destination, expectedTime, status);
+                flightDict[flightNumber] = newFlight;
+            }
 
+            Console.WriteLine($"Flight {flightNumber} has been added!");
+            Console.WriteLine("Would you like to add another flight? (Y/N) ");
+            string? choice = Console.ReadLine();
+            if (choice == "N")
+            {
+                break;
+            }
+            else if (choice == "Y")
+            {
+                continue;
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Pls try again.");
+                break;
+            }
+        }
 
+    }
+
+    else
+    {
+        Console.WriteLine("Pls try again.");
     }
 }
