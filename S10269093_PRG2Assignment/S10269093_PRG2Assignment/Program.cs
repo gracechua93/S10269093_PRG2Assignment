@@ -27,6 +27,17 @@ void LoadAirlines(Dictionary<string, Airline> airDict)
     }
 }
 
+void DisplayAirlines()
+{
+    Console.WriteLine("{0,-15} {1,-15}",
+        "Airline Code", "Airline Name");
+    foreach (KeyValuePair<string, Airline> a in airlineDict)
+    {
+        Console.WriteLine("{0,-15} {1,-15}",
+        a.Value.Code, a.Value.Name);
+    }
+}
+
 Console.WriteLine("Loading Flights...");
 LoadFlights(flightDict);
 Console.WriteLine("30 Flights Loaded!");
@@ -300,6 +311,27 @@ while (true)
         }
 
     }
+    else if (option == "5")
+    {
+        Console.WriteLine("=============================================");
+        Console.WriteLine("List of Airlines for Changi Airport Terminal 5");
+        Console.WriteLine("=============================================");
+        DisplayAirlines();
+    }
+    else if (option == "6")
+    {
+        Console.WriteLine("=============================================");
+        Console.WriteLine("List of Airlines for Changi Airport Terminal 5");
+        Console.WriteLine("=============================================");
+        DisplayAirlines();
+    }
+    else if (option == "7")
+    {
+        Console.WriteLine("=============================================");
+        Console.WriteLine("Flight Schedule for Changi Airport Terminal 5");
+        Console.WriteLine("=============================================");
+    }
+
 
     else
     {
