@@ -178,9 +178,10 @@ while (true)
         string? flightNum = Console.ReadLine();
         Console.Write("Enter Boarding Gate Name: ");
         string? gateName = Console.ReadLine();
+        
 
         bool flightFound = false;
-        Flight selectedFlight = new ();
+        Flight selectedFlight = null;
 
         foreach (KeyValuePair<string, Flight> f in flightDict)
         {
@@ -191,9 +192,8 @@ while (true)
                 {
                     Airline a = airlineDict[airlineCode];
                     selectedFlight = f.Value;
+                    Console.WriteLine(selectedFlight);
 
-                    //Console.WriteLine("{0,-15} {1,-20} {2,-23} {3,-20} {4,-15}",
-                    //    f.Value.FlightNumber, a.Name, f.Value.Origin, f.Value.Destination, f.Value.ExpectedTime);
                 }
                 flightFound = true;
                 break;
@@ -204,12 +204,41 @@ while (true)
             Console.WriteLine("Unable to find flight information.");
         }
 
-        Console.WriteLine("Flight Number: ", selectedFlight.FlightNumber);
-        Console.WriteLine("Origin: ", selectedFlight.Origin);
-        Console.WriteLine("Destination: ", selectedFlight.Destination);
-        Console.WriteLine("Expected Time: ", selectedFlight.ExpectedTime);
-        //Console.WriteLine("Special Request Code: ", );
-        Console.WriteLine("Boarding Gate Name: ", gateName);
+
+        foreach (KeyValuePair<string, BoardingGate> bg in boardingGateDict)
+        {
+            if (gateName == bg.Value.GateName)
+            {
+                Console.WriteLine(bg.Value.ToString());
+                break;
+            }
+        }
+
+        Console.Write("Would you like to update the status of the flight? (Y/N) ");
+        string? updateStatus = Console.ReadLine();
+
+        if (updateStatus == "Y")
+        {
+            Console.WriteLine("1. Delayed");
+            Console.WriteLine("2. Boarding");
+            Console.WriteLine("3. On Time");
+            Console.Write("Please select the new status of the flight: ");
+            string? newStatus = Console.ReadLine();
+            if (newStatus == "1")
+            {
+                selectedFlight.Status = "Delayed";
+            }
+            else if (newStatus == "2")
+            {
+                selectedFlight.Status = "Boarding";
+            }
+            else if (newStatus == "3")
+            {
+                selectedFlight.Status = "On Time";
+            }
+        }
+        Console.WriteLine($"Flight {selectedFlight.FlightNumber} has been assigned to Boarding Gate {gateName}!");
+
 
 
 
