@@ -36,6 +36,11 @@ namespace S10269093_PRG2Assignment
 
         }
 
+        public int CompareTo(LWTTFlight f)
+        {
+            return ExpectedTime.CompareTo(f.ExpectedTime);
+        }
+
         public override string ToString()
         {
             return base.ToString() + "\nSpecial Request Code: " + "LWTT";

@@ -8,7 +8,7 @@
 
 namespace S10269093_PRG2Assignment
 {
-    abstract class Flight
+    abstract class Flight : IComparable<Flight>
     {
         // properties
         public string FlightNumber { get; set; }
@@ -27,6 +27,11 @@ namespace S10269093_PRG2Assignment
             Destination = d;
             ExpectedTime = et;
             Status = s;
+        }
+
+        public int CompareTo(Flight? f)
+        {
+            return ExpectedTime.CompareTo(f.ExpectedTime);
         }
 
         public virtual double CalculateFees()

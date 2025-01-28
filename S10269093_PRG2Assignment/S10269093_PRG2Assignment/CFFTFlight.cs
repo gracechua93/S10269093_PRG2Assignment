@@ -8,7 +8,7 @@
 
 namespace S10269093_PRG2Assignment
 {
-    class CFFTFlight : Flight
+    class CFFTFlight : Flight, IComparable<CFFTFlight>
     {
         public double RequestFee { get; set; }
 
@@ -18,6 +18,10 @@ namespace S10269093_PRG2Assignment
             RequestFee = 150;
         }
 
+        public int CompareTo(CFFTFlight f)
+        {
+            return ExpectedTime.CompareTo(f.ExpectedTime);
+        }
         public override double CalculateFees()
         {
             double fees = 300;

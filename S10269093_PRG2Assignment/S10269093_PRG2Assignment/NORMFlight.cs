@@ -12,6 +12,11 @@ namespace S10269093_PRG2Assignment
     {
         public NORMFlight(string fN, string o, string d, DateTime et, string s) : base(fN, o, d, et, s) { }
 
+        public int CompareTo(NORMFlight f)
+        {
+            return ExpectedTime.CompareTo(f.ExpectedTime);
+        }
+
         public override double CalculateFees()
         {
             double fees = 300;

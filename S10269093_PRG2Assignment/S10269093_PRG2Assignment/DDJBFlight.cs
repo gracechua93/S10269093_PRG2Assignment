@@ -35,6 +35,10 @@ namespace S10269093_PRG2Assignment
             return fees;
 
         }
+        public int CompareTo(DDJBFlight f)
+        {
+            return ExpectedTime.CompareTo(f.ExpectedTime);
+        }
 
         public override string ToString()
         {
