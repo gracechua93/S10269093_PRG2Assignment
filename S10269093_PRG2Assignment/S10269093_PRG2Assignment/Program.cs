@@ -299,7 +299,6 @@ while (true)
             Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
             string? specialReqCode = Console.ReadLine();
 
-            string status = "Scheduled";
             if (specialReqCode == "None")
             {
                 Flight newFlight = new NORMFlight(flightNumber, origin, destination, expectedTime);

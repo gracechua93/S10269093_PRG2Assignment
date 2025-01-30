@@ -20,7 +20,7 @@ namespace S10269093_PRG2Assignment
         // constructors
         public Flight() { }
 
-        public Flight(string fN, string o, string d, DateTime et)
+        public Flight(string fN, string o, string? d, DateTime et)
         {
             FlightNumber = fN;
             Origin = o;
