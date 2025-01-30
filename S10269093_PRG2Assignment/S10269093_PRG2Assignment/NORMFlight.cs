@@ -10,7 +10,7 @@ namespace S10269093_PRG2Assignment
 {
     class NORMFlight : Flight
     {
-        public NORMFlight(string fN, string o, string d, DateTime et, string s) : base(fN, o, d, et, s) { }
+        public NORMFlight(string fN, string o, string d, DateTime et) : base(fN, o, d, et) { }
 
         public int CompareTo(NORMFlight f)
         {

@@ -19,13 +19,16 @@ namespace S10269093_PRG2Assignment
 
         public BoardingGate() { }
 
-        public BoardingGate(string gname, bool sCCFT, bool sDDJB, bool sLWTT)
+        public BoardingGate(string gname, bool sCCFT, bool sDDJB, bool sLWTT, Flight flight)
         {
             GateName = gname;
             SupportsCFFT = sCCFT;
             SupportsDDJB = sDDJB;
             SupportsLWTT = sLWTT;
+            Flight = flight;
         }
+
+        public BoardingGate(string gname, bool sCCFT, bool sDDJB, bool sLWTT) : this(gname, sCCFT, sDDJB, sLWTT, flight: null) { }
 
         public double CalculatFees()
         {

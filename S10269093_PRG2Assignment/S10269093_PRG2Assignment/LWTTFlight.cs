@@ -14,7 +14,7 @@ namespace S10269093_PRG2Assignment
 
         public LWTTFlight() : base() { }
 
-        public LWTTFlight(string fN, string o, string d, DateTime et, string s) : base(fN, o, d, et, s)
+        public LWTTFlight(string fN, string o, string d, DateTime et) : base(fN, o, d, et)
         {
             RequestFee = 500;
         }
