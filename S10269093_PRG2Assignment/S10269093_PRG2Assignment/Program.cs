@@ -149,6 +149,7 @@ void DisplayMenu()
         Console.WriteLine("5. Display Airline Flights");
         Console.WriteLine("6. Modify Flight Details");
         Console.WriteLine("7. Display Flight Schedule");
+        Console.WriteLine("9. Display Total Fees For Airline");
         Console.WriteLine("0. Exit");
         Console.WriteLine();
         Console.WriteLine("Please select your option:");
@@ -166,6 +167,7 @@ while (true)
         Console.WriteLine("Goodbye!");
         break;
     }
+
     else if (option == "1")
     {
         Console.WriteLine("=============================================");
@@ -173,6 +175,7 @@ while (true)
         Console.WriteLine("=============================================");
         DisplayFlight(flightDict, airlineDict);
     }
+
     else if (option == "2")
     {
         Console.WriteLine("=============================================");
@@ -180,6 +183,7 @@ while (true)
         Console.WriteLine("=============================================");
         DisplayBoardingGates(boardingGateDict);
     }
+
     else if (option == "3")
     {
         Console.WriteLine("=============================================");
@@ -189,44 +193,73 @@ while (true)
         string? flightNum = Console.ReadLine();
         Console.Write("Enter Boarding Gate Name: ");
         string? gateName = Console.ReadLine();
-        
+
+
 
         bool flightFound = false;
-        bool gateFound = false;
         Flight? selectedFlight = null;
-        BoardingGate? selectedGate = null;
-        try
+        
+        foreach (KeyValuePair<string, Flight> f in flightDict)
         {
-
-
-            foreach (KeyValuePair<string, Flight> f in flightDict)
+            if (flightNum == f.Value.FlightNumber)
             {
-                if (flightNum == f.Value.FlightNumber)
+                string airlineCode = f.Value.FlightNumber.Split(' ')[0];
+                if (airlineDict.ContainsKey(airlineCode))
                 {
-                    string airlineCode = f.Value.FlightNumber.Split(' ')[0];
-                    if (airlineDict.ContainsKey(airlineCode))
-                    {
-                        Airline a = airlineDict[airlineCode];
-                        selectedFlight = f.Value;
-                        Console.WriteLine(selectedFlight);
+                    Airline a = airlineDict[airlineCode];
+                    selectedFlight = f.Value;
+                    Console.WriteLine(selectedFlight);
 
-                    }
-                    flightFound = true;
-                    break;
                 }
+                flightFound = true;
+                break;
             }
+        }
+        if (!flightFound)
+        {
+            Console.WriteLine("Unable to find flight information.");
+        }
 
+        bool gateAssigned = false;
+        BoardingGate? selectedGate = null;
+
+        
+        while (!gateAssigned)
+        {
+            bool gateFound = false;
             foreach (KeyValuePair<string, BoardingGate> bg in boardingGateDict)
             {
                 if (gateName == bg.Value.GateName)
                 {
-                    selectedGate = bg.Value;
-                    Console.WriteLine(bg.Value.ToString());
-                    gateFound = true;
+
+                    if (bg.Value.Flight != null) // Check if gate is already assigned
+                    {
+                        Console.WriteLine($"Error: Boarding Gate {gateName} is already assigned to Flight {bg.Value.Flight.FlightNumber}.");
+                        Console.WriteLine("Please enter a different gate.");
+                        break;
+                    }
+                    else
+                    {
+                        selectedGate = bg.Value;
+                        Console.WriteLine(bg.Value.ToString());
+                        gateFound = true;
+                        gateAssigned = true;  // Valid gate found, exit loop
+                    }
                     break;
                 }
             }
 
+            if (!gateFound)
+            {
+                Console.WriteLine("Unable to find boarding gate information.");
+            }
+        }
+        
+
+        
+        
+        if (gateAssigned)
+        {
             Console.Write("Would you like to update the status of the flight? (Y/N) ");
             string? updateStatus = Console.ReadLine();
 
@@ -250,37 +283,17 @@ while (true)
                     selectedFlight.Status = "On Time";
                 }
             }
-            if (flightFound && gateFound)
-            {
-                selectedGate.Flight = selectedFlight;
-                Console.WriteLine($"Flight {selectedFlight.FlightNumber} has been assigned to Boarding Gate {gateName}!");
-            }
 
-            else
-            {
-                if (!flightFound)
-                {
-                    Console.WriteLine("Unable to find flight information.");
-                }
-                if (!gateFound)
-                {
-                    Console.WriteLine("Unable to find boarding gate information.");
-                }
-            }
+            selectedGate.Flight = selectedFlight;
+            Console.WriteLine($"Flight {selectedFlight.FlightNumber} has been assigned to Boarding Gate {selectedGate.GateName}!");
         }
-        catch (ArgumentException ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"An unexpected error occurred: {ex.Message}");
-        }
+        
+        
 
-
-
+        
 
     }
+
     else if (option == "4")
     {
         while (true)
@@ -341,6 +354,7 @@ while (true)
         }
 
     }
+
     else if (option == "5")
     {
         Console.WriteLine("=============================================");
@@ -348,6 +362,7 @@ while (true)
         Console.WriteLine("=============================================");
         DisplayAirlines();
     }
+
     else if (option == "6")
     {
         Console.WriteLine("=============================================");
@@ -355,6 +370,7 @@ while (true)
         Console.WriteLine("=============================================");
         DisplayAirlines();
     }
+
     else if (option == "7")
     {
         Console.WriteLine("=============================================");
@@ -391,6 +407,7 @@ while (true)
         }
     }
 
+    // Advanced Feature 2
     else if (option == "9")
     {
         Console.WriteLine("=============================================");
@@ -428,6 +445,7 @@ while (true)
         else
         {
             Console.WriteLine("Please ensure all flights have their boarding gates assigned before proceeding.");
+            continue;
         }
 
         Console.WriteLine();
@@ -435,79 +453,25 @@ while (true)
         Console.Write("Which airline do you want to calculate total fees (Input Airline Code): ");
         string? choice = Console.ReadLine();
 
-        Terminal terminal = new Terminal("Terminal 5", airlineDict, flightDict, boardingGateDict);
-        //terminal.PrintAirlineFees();
 
-        double subtotalFees = 0;
-        double totalDiscounts = 0;
-
-        double fees = 0;
-        int totalFlights = flightDict.Count;
-        int flightsWithNoRequestCodes = 0;
-        int flightsDuringPromoTimes = 0;
-        int flightsFromPromoOrigins = 0;
-        foreach (KeyValuePair<string, Flight> f in flightDict)
+        if (choice != null && airlineDict.ContainsKey(choice))
         {
-            string airlineCode = f.Value.FlightNumber.Split(' ')[0];
+            Dictionary<string, Flight> selectedFlights = new Dictionary<string, Flight>();
 
-            
-
-            if (airlineCode == choice)
+            foreach (KeyValuePair<string, Flight> f in flightDict)
             {
+                string airlineCode = f.Value.FlightNumber.Split(' ')[0];
 
-                Airline sqAirline = airlineDict[airlineCode];
-                double flightFee = f.Value.CalculateFees(); 
-                //double discount = sqAirline.CalculateFees();
-
-                Console.WriteLine(sqAirline);
-                //double finalFee = flightFee - discount; 
-
-                subtotalFees += flightFee;
-                //totalDiscounts += discount;
-
-                if ((f.Value is not CFFTFlight) && (f.Value is not DDJBFlight) && (f.Value is not LWTTFlight))
+                if (airlineCode == choice)
                 {
-                    flightsWithNoRequestCodes++;
+                    selectedFlights[f.Key] = f.Value;
                 }
-
-                // Check for flights during promotional times
-                if (f.Value.ExpectedTime.Hour < 11 || f.Value.ExpectedTime.Hour > 21)
-                {
-                    flightsDuringPromoTimes++;
-                }
-
-                // Check for flights from specific origins
-                if (f.Value.Origin == "Dubai (DXB)" || f.Value.Origin == "Bangkok (BKK)" || f.Value.Origin == "Tokyo (NRT)")
-                {
-                    flightsFromPromoOrigins++;
-                }
-                Console.WriteLine($"Flight: {f.Value.FlightNumber}, Fee: ${flightFee:F2}");
             }
-        }
-        double discount = 0;
 
-        // For every 3 flights
-        discount += (totalFlights / 3) * 350;
-
-        // For each flight during promotional times
-        discount += flightsDuringPromoTimes * 110;
-
-        // For each flight from promotional origins
-        discount += flightsFromPromoOrigins * 25;
-
-        // For each flight with no request codes
-        discount += flightsWithNoRequestCodes * 50;
-
-        // Apply 3% discount if total flights > 5
-        if (totalFlights > 5)
-        {
-            discount += fees * 0.03;
+            Airline selectedAirline = new Airline(airlineDict[choice].Name, airlineDict[choice].Code, selectedFlights);
+            Console.WriteLine($"The total fees for the selected airline for today is ${selectedAirline.CalculateFees():F2}.");
         }
 
-        // Subtract total discount
-        fees -= discount;
-        Console.WriteLine(subtotalFees);
-        //Console.WriteLine($"Subtotal Fees for Airline SQ: ${subtotalFees:F2}");
 
     }
 

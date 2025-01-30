@@ -17,10 +17,17 @@ namespace S10269093_PRG2Assignment
         public Dictionary<string, Flight> Flights { get; set; } = new Dictionary<string, Flight>();
 
         public Airline() { }
-        public Airline(string c, string n)
+
+        public Airline(string c, string n) 
+        { 
+            Name = n; 
+            Code = c; 
+        }
+        public Airline(string n, string c, Dictionary<string, Flight> f)
         {
             Name = n;
             Code = c;
+            Flights = f;
         }
 
         // methods
@@ -42,32 +49,36 @@ namespace S10269093_PRG2Assignment
         public double CalculateFees()
         {
             double fees = 0;
-            int totalFlights = Flights.Count;
+            int totalFlights = 0;
             int flightsWithNoRequestCodes = 0;
             int flightsDuringPromoTimes = 0;
             int flightsFromPromoOrigins = 0;
 
-            foreach (KeyValuePair<string, Flight> flight  in Flights)
+            foreach (Flight flight in Flights.Values)
             {
-                fees += flight.Value.CalculateFees();
+                totalFlights++;
+                double flightFee = flight.CalculateFees();
+
+                fees += flightFee;
 
                 // Check for flights without special request codes
-                if (!(flight is CFFTFlight) && !(flight is DDJBFlight) && !(flight is LWTTFlight))
+                if ((flight is not CFFTFlight) && (flight is not DDJBFlight) && (flight is not LWTTFlight))
                 {
                     flightsWithNoRequestCodes++;
                 }
 
                 // Check for flights during promotional times
-                if (flight.Value.ExpectedTime.Hour < 11 || flight.Value.ExpectedTime.Hour > 21)
+                if (flight.ExpectedTime.Hour < 11 || flight.ExpectedTime.Hour > 21)
                 {
                     flightsDuringPromoTimes++;
                 }
 
                 // Check for flights from specific origins
-                if (flight.Value.Origin == "DXB" || flight.Value.Origin == "BKK" || flight.Value.Origin == "NRT")
+                if (flight.Origin == "Dubai (DXB)" || flight.Origin == "Bangkok (BKK)" || flight.Origin == "Tokyo (NRT)")
                 {
                     flightsFromPromoOrigins++;
                 }
+
             }
 
             // Apply discounts
