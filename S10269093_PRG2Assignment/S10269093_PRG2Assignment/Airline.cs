@@ -47,9 +47,9 @@ namespace S10269093_PRG2Assignment
             int flightsDuringPromoTimes = 0;
             int flightsFromPromoOrigins = 0;
 
-            foreach (Flight flight in Flights.Values)
+            foreach (KeyValuePair<string, Flight> flight  in Flights)
             {
-                fees += flight.CalculateFees();
+                fees += flight.Value.CalculateFees();
 
                 // Check for flights without special request codes
                 if (!(flight is CFFTFlight) && !(flight is DDJBFlight) && !(flight is LWTTFlight))
@@ -58,13 +58,13 @@ namespace S10269093_PRG2Assignment
                 }
 
                 // Check for flights during promotional times
-                if (flight.ExpectedTime.Hour < 11 || flight.ExpectedTime.Hour > 21)
+                if (flight.Value.ExpectedTime.Hour < 11 || flight.Value.ExpectedTime.Hour > 21)
                 {
                     flightsDuringPromoTimes++;
                 }
 
                 // Check for flights from specific origins
-                if (flight.Origin == "DXB" || flight.Origin == "BKK" || flight.Origin == "NRT")
+                if (flight.Value.Origin == "DXB" || flight.Value.Origin == "BKK" || flight.Value.Origin == "NRT")
                 {
                     flightsFromPromoOrigins++;
                 }

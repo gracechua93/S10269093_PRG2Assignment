@@ -22,14 +22,14 @@ namespace S10269093_PRG2Assignment
             double fees = 300;
             if (Origin == "Singapore (SIN)")
             {
-                return fees += 500;
+                fees += 500;
             }
             else if (Destination == "Singapore (SIN)")
             {
-                return fees += 800;
+                fees += 800;
             }
 
-            return 0;
+            return fees;
         }
 
         public override string ToString()
