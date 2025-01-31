@@ -218,46 +218,53 @@ while (true)
         if (!flightFound)
         {
             Console.WriteLine("Unable to find flight information.");
+            return;
         }
 
         bool gateAssigned = false;
         BoardingGate? selectedGate = null;
 
-        
-        while (!gateAssigned)
+
+        do
         {
             bool gateFound = false;
             foreach (KeyValuePair<string, BoardingGate> bg in boardingGateDict)
             {
                 if (gateName == bg.Value.GateName)
                 {
+                    gateFound = true;
 
                     if (bg.Value.Flight != null) // Check if gate is already assigned
                     {
-                        Console.WriteLine($"Error: Boarding Gate {gateName} is already assigned to Flight {bg.Value.Flight.FlightNumber}.");
+                        Console.WriteLine($"Boarding Gate {gateName} is already assigned to Flight {bg.Value.Flight.FlightNumber}.");
                         Console.WriteLine("Please enter a different gate.");
-                        break;
+                        Console.Write("Enter Boarding Gate Name: ");
+                        gateName = Console.ReadLine();
                     }
                     else
                     {
                         selectedGate = bg.Value;
                         Console.WriteLine(bg.Value.ToString());
-                        gateFound = true;
                         gateAssigned = true;  // Valid gate found, exit loop
+                        break;
                     }
-                    break;
+
                 }
             }
 
             if (!gateFound)
             {
                 Console.WriteLine("Unable to find boarding gate information.");
+                break;
             }
-        }
-        
+            
+        } while (!gateAssigned);
 
-        
-        
+
+
+
+
+
         if (gateAssigned)
         {
             Console.Write("Would you like to update the status of the flight? (Y/N) ");
