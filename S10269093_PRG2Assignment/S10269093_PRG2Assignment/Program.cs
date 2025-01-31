@@ -224,7 +224,7 @@ while (true)
         bool gateAssigned = false;
         BoardingGate? selectedGate = null;
 
-
+        // The loop asks the user for a boarding gate name until a valid, unassigned gate is found.
         do
         {
             bool gateFound = false;
@@ -259,11 +259,6 @@ while (true)
             }
             
         } while (!gateAssigned);
-
-
-
-
-
 
         if (gateAssigned)
         {
