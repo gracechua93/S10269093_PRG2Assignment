@@ -373,6 +373,7 @@ while (true)
         Console.WriteLine("List of Airlines for Changi Airport Terminal 5");
         Console.WriteLine("=============================================");
         DisplayAirlines();
+        ModifyFlightDetails(flightDict);
     }
 
     else if (option == "7")
@@ -475,8 +476,6 @@ while (true)
             Airline selectedAirline = new Airline(airlineDict[choice].Name, airlineDict[choice].Code, selectedFlights);
             Console.WriteLine($"The total fees for the selected airline for today is ${selectedAirline.CalculateFees():F2}.");
         }
-
-
     }
 
     else
@@ -524,6 +523,7 @@ void DisplayAirlineFlights(Terminal t)
     {   
         Console.WriteLine(selectedFlight);
         // Find the first boarding gate assigned to the selected flight
+        // FirstOrDefault returns the first element that matches the given condition.
         BoardingGate? assignedGate = terminal.BoardingGate.Values.FirstOrDefault(g => g.Flight != null && g.Flight.FlightNumber == selectedFlight.FlightNumber);
         if (assignedGate != null)
         {
@@ -535,4 +535,19 @@ void DisplayAirlineFlights(Terminal t)
         }
     }
 
+}
+
+void ModifyFlightDetails(Dictionary<string, Flight> flightDict)
+{
+    Console.Write("Enter Flight Number to Modify: ");
+    string flightNum = Console.ReadLine();
+    if (!flightDict.ContainsKey(flightNum))
+    {
+        Console.WriteLine("Flight not found.");
+        return;
+    }
+
+    Console.Write("Enter New Expected Departure/Arrival Time (dd/MM/yyyy HH:mm): ");
+    flightDict[flightNum].ExpectedTime = DateTime.Parse(Console.ReadLine());
+    Console.WriteLine("Flight details updated!");
 }
