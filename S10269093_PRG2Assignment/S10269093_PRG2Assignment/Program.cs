@@ -549,7 +549,7 @@ void ModifyFlightDetails(Dictionary<string, Flight> flightDict, Dictionary<strin
     Airline selectedAirline = airlineDict[airlineCode];
     foreach (var flight in flightDict.Values)
     {
-        string airCode = flight.FlightNumber.Substring(0, 2); // Extract the 2-letter airline code
+        string airCode = flight.FlightNumber!.Substring(0, 2); // Extract the 2-letter airline code
 
         if (airlineDict.ContainsKey(airCode))
         {
@@ -615,14 +615,14 @@ void ModifyFlight(Flight flight, Dictionary<string, Flight> flightDict)
             ModifySpecialRequest(flight);
             break;
         case "4":
-            //ModifyBoardingGate(flight);
+            ModifyBoardingGate(flight);
             break;
         default:
             Console.WriteLine("Invalid option selected.");
             return;
     }
     // Update the flight in the main dictionary
-    flightDict[flight.FlightNumber] = flight;
+    flightDict[flight.FlightNumber!] = flight;
     Console.WriteLine("Flight details updated successfully!");
 
 }
@@ -691,11 +691,83 @@ void ModifyStatus(Flight f)
 
 void ModifySpecialRequest(Flight f)
 {
-    Console.Write("Enter new Special Request Code (press Enter to keep current value): ");
-    string? specialRequest = Console.ReadLine()?.Trim();
-    if (!string.IsNullOrEmpty(specialRequest))
+    Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
+    string? specialReqCode = Console.ReadLine();
+
+    Flight updateFlight = null;
+    if (specialReqCode == "None")
     {
-        f.SpecialRequestCode = specialRequest;
+        updateFlight = new NORMFlight(f.FlightNumber!, f.Origin!, f.Destination!, f.ExpectedTime);
+        
+    }
+    else if (specialReqCode == "CFFT")
+    {
+        updateFlight = new CFFTFlight(f.FlightNumber!, f.Origin!, f.Destination!, f.ExpectedTime);
+        
+    }
+    else if (specialReqCode == "DDJB")
+    {
+        updateFlight = new DDJBFlight(f.FlightNumber!, f.Origin!, f.Destination!, f.ExpectedTime);
+        
+    }
+    else if (specialReqCode == "LWTT")
+    {
+        updateFlight = new LWTTFlight(f.FlightNumber!, f.Origin!, f.Destination!, f.ExpectedTime);
+        
+    }
+    else
+    {
+        Console.WriteLine("Invalid Special Request Code.");
+        return;
+    }
+    if (updateFlight != null)
+    {
+        flightDict[f.FlightNumber!] = updateFlight;
+        Console.WriteLine(updateFlight);
+    }
+
+}
+
+void ModifyBoardingGate(Flight f)
+{
+    // Retrieve the existing boarding gate for the given flight
+    BoardingGate? assignedGate = boardingGateDict.Values.FirstOrDefault(g => g.Flight != null && g.Flight.FlightNumber == f.FlightNumber);
+    if (assignedGate != null)
+    {
+        Console.WriteLine($"Current Boarding Gate: {assignedGate.GateName}");
+    }
+    else
+    {
+        Console.WriteLine("Boarding Gate: Unassigned");
+    }
+
+    Console.Write("Enter new Boarding Gate (press Enter to keep current value): ");
+    string? newGate = Console.ReadLine()?.Trim();
+
+    if (!string.IsNullOrEmpty(newGate))
+    {
+        // If a boarding gate is assigned, update it; otherwise, add a new one
+        if (assignedGate != null)
+        {
+            // Modify the existing assigned gate (if applicable)
+            assignedGate.GateName = newGate;
+            Console.WriteLine($"Boarding Gate updated to: {assignedGate.GateName}");
+        }
+        else
+        {
+            // If no gate was assigned, create and assign a new BoardingGate
+            BoardingGate newBoardingGate = new BoardingGate
+            {
+                GateName = newGate,
+                Flight = f
+            };
+            boardingGateDict[f.FlightNumber!] = newBoardingGate;  // Add to the dictionary
+            Console.WriteLine($"New Boarding Gate assigned: {newBoardingGate.GateName}");
+        }
+    }
+    else
+    {
+        Console.WriteLine("No changes made to the Boarding Gate.");
     }
 }
 
@@ -704,7 +776,7 @@ void DeleteFlight(string flightNum, Airline airline, Dictionary<string, Flight> 
 {
     Flight flightToDelete = airline.Flights[flightNum];
     Console.Write($"Are you sure you want to delete Flight {flightNum}? [Y/N]: ");
-    string confirmDelete = Console.ReadLine().ToUpper();
+    string? confirmDelete = Console.ReadLine().ToUpper();
 
     if (confirmDelete == "Y")
     {
