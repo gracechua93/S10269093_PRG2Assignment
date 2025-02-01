@@ -1,10 +1,12 @@
 ﻿using S10269093_PRG2Assignment;
+using System.ComponentModel.Design;
 using System.Runtime.CompilerServices;
 
 // Dictionaries
 Dictionary<string, Airline> airlineDict = new Dictionary<string, Airline>();
 Dictionary<string, BoardingGate> boardingGateDict = new Dictionary<string, BoardingGate>();
 Dictionary<string, Flight> flightDict = new Dictionary<string, Flight>();
+Terminal terminal = new Terminal("Terminal 5", airlineDict, flightDict, boardingGateDict);
 
 Console.WriteLine("Loading Airlines...");
 LoadAirlines(airlineDict);
@@ -354,7 +356,6 @@ while (true)
                 break;
             }
         }
-
     }
 
     else if (option == "5")
@@ -363,6 +364,7 @@ while (true)
         Console.WriteLine("List of Airlines for Changi Airport Terminal 5");
         Console.WriteLine("=============================================");
         DisplayAirlines();
+        DisplayAirlineFlights(terminal);
     }
 
     else if (option == "6")
@@ -481,4 +483,56 @@ while (true)
     {
         Console.WriteLine("Pls try again.");
     }
+}
+
+void DisplayAirlineFlights(Terminal t)
+{
+    Console.Write("Enter Airline Code: ");
+    string? airlineCode = Console.ReadLine();
+    if (!airlineDict.ContainsKey(airlineCode))
+    {
+        Console.WriteLine("Airline not found.");
+        return;
+    }
+    Airline selectedAirline = t.Airlines[airlineCode];
+    foreach (var flight in flightDict.Values)
+    {
+        string airCode = flight.FlightNumber.Substring(0, 2); // Extract the 2-letter airline code
+
+        if (airlineDict.ContainsKey(airCode))
+        {
+            airlineDict[airCode].Flights[flight.FlightNumber] = flight; // Add the flight to the airline's Flights dictionary
+        }
+    }
+
+    Console.WriteLine($"Flights operated by {selectedAirline.Name}:");
+    foreach (Flight flight in selectedAirline.Flights.Values)
+    {
+        Console.WriteLine($"{flight.FlightNumber} - {flight.Origin} to {flight.Destination} at {flight.ExpectedTime}");
+    }
+
+    Console.Write("Enter Flight Number: ");
+    string? flightNum = Console.ReadLine();
+    Flight selectedFlight = selectedAirline.Flights[flightNum];
+    if (!selectedAirline.Flights.ContainsKey(flightNum))
+    {
+        Console.WriteLine("Flight not found. Try again.");
+        return;
+    }
+    
+    else if (selectedFlight.FlightNumber == flightNum)
+    {   
+        Console.WriteLine(selectedFlight);
+        // Find the first boarding gate assigned to the selected flight
+        BoardingGate? assignedGate = terminal.BoardingGate.Values.FirstOrDefault(g => g.Flight != null && g.Flight.FlightNumber == selectedFlight.FlightNumber);
+        if (assignedGate != null)
+        {
+            Console.WriteLine($"Boarding Gate: {assignedGate.GateName}");
+        }
+        else
+        {
+            Console.WriteLine("Boarding Gate: Not assigned");
+        }
+    }
+
 }
