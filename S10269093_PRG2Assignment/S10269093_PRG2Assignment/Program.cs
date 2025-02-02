@@ -197,7 +197,6 @@ while (true)
         string? gateName = Console.ReadLine();
 
 
-
         bool flightFound = false;
         Flight? selectedFlight = null;
         
@@ -223,6 +222,7 @@ while (true)
             return;
         }
 
+       
         bool gateAssigned = false;
         BoardingGate? selectedGate = null;
 
@@ -286,16 +286,15 @@ while (true)
                 {
                     selectedFlight.Status = "On Time";
                 }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter 1, 2, or 3.");
+                }
             }
 
             selectedGate.Flight = selectedFlight;
             Console.WriteLine($"Flight {selectedFlight.FlightNumber} has been assigned to Boarding Gate {selectedGate.GateName}!");
         }
-        
-        
-
-        
-
     }
 
     else if (option == "4")
@@ -309,10 +308,25 @@ while (true)
 
             Console.Write("Enter Flight Number: ");
             string? flightNumber = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(flightNumber))
+            {
+                Console.WriteLine("Invalid flight number. Please try again.");
+                continue;
+            }
             Console.Write("Enter Origin: ");
             string? origin = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(origin))
+            {
+                Console.WriteLine("Invalid origin. Please try again.");
+                continue;
+            }
             Console.Write("Enter Destination: ");
             string? destination = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(destination))
+            {
+                Console.WriteLine("Invalid destination. Please try again.");
+                continue;
+            }
             Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
             DateTime expectedTime = DateTime.Parse(Console.ReadLine());
             Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
@@ -694,7 +708,7 @@ void ModifySpecialRequest(Flight f)
     Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
     string? specialReqCode = Console.ReadLine();
 
-    Flight updateFlight = null;
+    Flight? updateFlight = null;
     if (specialReqCode == "None")
     {
         updateFlight = new NORMFlight(f.FlightNumber!, f.Origin!, f.Destination!, f.ExpectedTime);
