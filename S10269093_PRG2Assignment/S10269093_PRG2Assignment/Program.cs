@@ -159,7 +159,7 @@ void DisplayMenu()
         Console.WriteLine("5. Display Airline Flights");
         Console.WriteLine("6. Modify Flight Details");
         Console.WriteLine("7. Display Flight Schedule");
-        Console.WriteLine("9. Display Total Fees For Airline");
+        Console.WriteLine("8. Display Total Fees For Airline");
         Console.WriteLine("0. Exit");
         Console.WriteLine();
         Console.WriteLine("Please select your option:");
@@ -460,7 +460,7 @@ while (true)
     }
 
     // Advanced Feature 2
-    else if (option == "9")
+    else if (option == "8")
     {
         Console.WriteLine("=============================================");
         Console.WriteLine("Display the total fee per airline for the day");
