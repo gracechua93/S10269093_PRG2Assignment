@@ -1,6 +1,8 @@
 ﻿using S10269093_PRG2Assignment;
 using System.ComponentModel.Design;
+using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 // Dictionaries
 Dictionary<string, Airline> airlineDict = new Dictionary<string, Airline>();
@@ -313,6 +315,29 @@ while (true)
                 Console.WriteLine("Invalid flight number. Please try again.");
                 continue;
             }
+
+            // Check if the first two characters are letters
+            if (flightNumber.Length < 5 || !char.IsLetter(flightNumber[0]) || !char.IsLetter(flightNumber[1]))
+            {
+                Console.WriteLine("Flight number must start with two letters (e.g., 'SQ').");
+                continue;
+            }
+
+            // Check if there is exactly one space after the two letters
+            if (flightNumber[2] != ' ')
+            {
+                Console.WriteLine("Flight number must have a space after the two letters.");
+                continue;
+            }
+
+            // Check if the remaining part (after the space) is 3 digits
+            string numberPart = flightNumber.Substring(3).Trim(); // Remove the first two letters and space
+            if (numberPart.Length < 3 || numberPart.Length > 3 || !int.TryParse(numberPart, out _))
+            {
+                Console.WriteLine("Flight number must be followed by 3 digits (e.g., '115' ).");
+                continue;
+            }
+
             Console.Write("Enter Origin: ");
             string? origin = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(origin))
@@ -320,6 +345,7 @@ while (true)
                 Console.WriteLine("Invalid origin. Please try again.");
                 continue;
             }
+
             Console.Write("Enter Destination: ");
             string? destination = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(destination))
@@ -327,6 +353,7 @@ while (true)
                 Console.WriteLine("Invalid destination. Please try again.");
                 continue;
             }
+
             Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
             DateTime expectedTime = DateTime.Parse(Console.ReadLine());
             Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
