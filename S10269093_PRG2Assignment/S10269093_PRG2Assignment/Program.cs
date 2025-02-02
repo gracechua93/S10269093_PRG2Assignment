@@ -4,6 +4,12 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
+//==========================================================
+// Student Number: S10269093
+// Student Name: Grace Chua
+// Partner Name: Dalton Seah
+//==========================================================
+
 // Dictionaries
 Dictionary<string, Airline> airlineDict = new Dictionary<string, Airline>();
 Dictionary<string, BoardingGate> boardingGateDict = new Dictionary<string, BoardingGate>();
@@ -553,29 +559,26 @@ void DisplayAirlineFlights(Terminal t)
 
     Console.Write("Enter Flight Number: ");
     string? flightNum = Console.ReadLine();
-    Flight selectedFlight = selectedAirline.Flights[flightNum];
+    
     if (!selectedAirline.Flights.ContainsKey(flightNum))
     {
         Console.WriteLine("Flight not found. Try again.");
         return;
     }
-    
-    else if (selectedFlight.FlightNumber == flightNum)
-    {   
-        Console.WriteLine(selectedFlight);
-        // Find the first boarding gate assigned to the selected flight
-        // FirstOrDefault returns the first element that matches the given condition.
-        BoardingGate? assignedGate = terminal.BoardingGate.Values.FirstOrDefault(g => g.Flight != null && g.Flight.FlightNumber == selectedFlight.FlightNumber);
-        if (assignedGate != null)
-        {
-            Console.WriteLine($"Boarding Gate: {assignedGate.GateName}");
-        }
-        else
-        {
-            Console.WriteLine("Boarding Gate: Unassigned");
-        }
-    }
+    Flight selectedFlight = selectedAirline.Flights[flightNum];
 
+    Console.WriteLine(selectedFlight);
+    // Find the first boarding gate assigned to the selected flight
+    // FirstOrDefault returns the first element that matches the given condition.
+    BoardingGate? assignedGate = terminal.BoardingGate.Values.FirstOrDefault(g => g.Flight != null && g.Flight.FlightNumber == selectedFlight.FlightNumber);
+    if (assignedGate != null)
+    {
+        Console.WriteLine($"Boarding Gate: {assignedGate.GateName}");
+    }
+    else
+    {
+        Console.WriteLine("Boarding Gate: Unassigned");
+    }
 }
 
 void ModifyFlightDetails(Dictionary<string, Flight> flightDict, Dictionary<string, Airline> airlineDict)
